@@ -1,0 +1,77 @@
+﻿@using PagedList
+@using PagedList.Mvc
+@model PagedList.IPagedList<Models.EF.User>
+
+@{
+    ViewBag.Title = "Danh sách Người dùng";
+    Layout = "~/Areas/DOTNETGROUP/Views/Shared/_Layout.cshtml";
+}
+
+@section Header{
+    Quản lý người dùng
+}
+
+<div class="row">
+    <div class="form-group col-lg-12">
+        @Html.ActionLink("Tạo mới người dùng", "Create", "User", new { @class = "btn btn-danger" })
+    </div>
+@using (Html.BeginForm("Index", "User", FormMethod.Post))
+{
+    <div class="row form-group col-lg-12">
+        <div class="col-md-6">
+            <input type="text" name="keyword" placeholder="Nhập từ khóa cần tìm ..." value="@ViewBag.SearchKeyword" class="form-control" />
+        </div>
+        <div class="col-md-3">
+            <input type="submit" value="Tìm kiếm" class="btn btn-success" />
+        </div>
+    </div>
+}
+    </div>
+
+    <table class="table table-striped table-hover table-bordered">
+        <thead>
+            <tr>
+                <th>
+                    STT
+                </th>
+                <th>
+                    Tên truy cập
+                </th>
+                <th>
+                    @Html.ActionLink("Họ tên", "Index", new
+               {
+                   sort = ViewBag.SortByFullName
+               })
+                </th>
+                <th>
+                    Thư điện tử
+                </th>
+            </tr>
+        </thead>
+   @{ int i = 1;}
+        @if (Model.Count() == 0) { 
+            <tr> <td colspan = "4" > Bản ghi không tồn tại </td>
+        </tr>
+        } else {
+            foreach (var item in Model)
+            {
+            <tr>
+                <td align="center">
+                    @if (Model.PageNumber == 1) { @i; }
+                    else { @((Model.PageNumber - 1)* Model.PageCount + i); }
+                </td>
+                <td>
+                    @item.Username
+                </td>
+                <td>
+                    @item.FullName
+                </td>
+                <td>
+                    @item.Email
+                </td>
+            </tr>
+                i++;
+            }
+        }
+    </table>
+@Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page= page, @searchString = @ViewBag.SearchString, sort = Request.QueryString["sort"] }))

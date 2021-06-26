@@ -1,0 +1,60 @@
+﻿@model Models.EF.User
+
+@{
+    ViewBag.Title = "Tạo mới người dùng";
+    Layout = "~/Areas/DOTNETGROUP/Views/Shared/_Layout.cshtml";
+}
+
+@section header{
+    Tạo mới người dùng
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <div class="form-group col-md-12">
+            @Html.ActionLink("Quay lại", "Index", "User", new { @class = "btn btn-success" })
+        </div>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Username, new { @class = "control-label col-md-2" })
+
+            <div class="col-md-10">
+
+                @Html.TextBoxFor(model => model.Username, new { @class = "form-control", @placeholder = "Mời nhập tên truy cập" })
+                @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Thư điện tử</label>
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Email, new { @class = "form-control", @placeholder = "Mời nhập thư điện tử" })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Họ tên</label>
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.FullName, new { @class = "form-control", @placeholder = "Mời nhập họ tên" })
+                @Html.ValidationMessageFor(model => model.FullName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Mật khẩu</label>
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Password, new { @class = "form-control", @type = "password", @placeholder = "Mời nhập mật khẩu truy cập" })
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Tạo mới" class="btn btn-danger" />
+            </div>
+        </div>
+    </div>
+}
+
